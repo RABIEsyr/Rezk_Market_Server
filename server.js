@@ -31,7 +31,7 @@ mongoose.connect(config.db, err => {
 
 // let app = express();
 
-  app.use(expressSS.static(path.join(__dirname, 'deploy'))); 
+app.use(expressSS.static(path.join(__dirname, 'deploy'))); 
 
 
 app.use(bodyparser.json());
@@ -56,7 +56,7 @@ app.use('/charg-card', chargeCardRoute)
 app.use('/', indexRoute);
 
 
-const port =  process.env.PORT || 8000;
+const port = process.env.PORT || 8000;
 http.listen(port, err => {
     if (err) throw err;
     console.log(`serer running on port:  ${port}`)
