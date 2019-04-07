@@ -4,5 +4,5 @@ module.exports = {
     port: 3000,
     secret: '333',
     PRIVATE_KEY: 'sk_test_vllYrL6F5rd32Vp9V1Pn1UqA00zY8JrlNs',
-    db: "altals_db"
+    db: "atlas_db"
 }
