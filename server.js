@@ -21,13 +21,13 @@ const indexRoute = require('./routes/index');
 const shoppingRoute = require('./routes/shopping');
 const chargeCardRoute = require('./routes/cedit-card');
 
-mongoose.connect(config.db, err => {
-    if (err) {
-        console.log('Error in connecting to Mongo DB !!');
-        throw err;
-    }
-    console.log('successfully connected to database ..')
-})
+// mongoose.connect(config.db, err => {
+//     if (err) {
+//         console.log('Error in connecting to Mongo DB !!');
+//         throw err;
+//     }
+//     console.log('successfully connected to database ..')
+// })
 
 // let app = express();
 
@@ -51,11 +51,7 @@ app.use(cors());
 }); 
 
 
-app.use('/api', apiRoute);
-app.use('/shopping', shoppingRoute);
-app.use('/charg-card', chargeCardRoute)
 
-app.use('/', indexRoute);
 
 
 const port = 8000; // process.env.PORT || 8000;
