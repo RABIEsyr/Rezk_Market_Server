@@ -21,13 +21,13 @@ const indexRoute = require('./routes/index');
 const shoppingRoute = require('./routes/shopping');
 const chargeCardRoute = require('./routes/cedit-card');
 
-// mongoose.connect(config.db, err => {
-//     if (err) {
-//         console.log('Error in connecting to Mongo DB !!');
-//         throw err;
-//     }
-//     console.log('successfully connected to database ..')
-// })
+mongoose.connect(config.db, err => {
+    if (err) {
+        console.log('Error in connecting to Mongo DB !!');
+        throw err;
+    }
+    console.log('successfully connected to database ..')
+})
 
 // let app = express();
 
@@ -42,19 +42,24 @@ app.use(cors());
 
 
 
+app.use('/api', apiRoute);
+app.use('/shopping', shoppingRoute);
+app.use('/charg-card', chargeCardRoute)
+
+app.use('/', indexRoute);
 
 // use routes
 //setInterval( ()=> file1 ,1000);
 
- app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname + '/news-app/index.html'));
-}); 
+//  app.get('/', (req, res) => {
+//     res.sendFile(path.join(__dirname + '/news-app/index.html'));
+// }); 
 
 
 
 
 
-const port = 8000; // process.env.PORT || 8000;
+const port = 3000 // process.env.PORT || 8000;
 http.listen(port, err => {
     if (err) throw err;
     console.log(`serer running on port:  ${port}`)
