@@ -110,5 +110,15 @@ router.post('/', checkJwt, (req, res, nexe) => {
    });
 });
 
+router.post('/remove-one-product', checkJwt,(req, res) => {
+   let userId = req.decoded.user._id
+   db.cartSchema.findOne({ products: req.body.id, owner: new ObjectId(userId) }, (err, product) => {
+      if (err) throw err;
+      if (product) {
+         product.remove();
+         console.log(622333)
+      }
+   })
+})
 
 module.exports = router;

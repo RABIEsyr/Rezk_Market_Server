@@ -31,7 +31,8 @@ mongoose.connect(config.db, err => {
 
 // let app = express();
 
-app.use(expressSS.static(path.join(__dirname, 'deploy'))); 
+
+  app.use(expressSS.static(path.join(__dirname, 'news-app'))); 
 
 
 app.use(bodyparser.json());
@@ -43,11 +44,12 @@ app.use(cors());
 
 
 // use routes
-setInterval( ()=> file1 ,1000);
+//setInterval( ()=> file1 ,1000);
 
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname + '/deploy/index.html'));
-});
+ app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname + '/news-app/index.html'));
+}); 
+
 
 app.use('/api', apiRoute);
 app.use('/shopping', shoppingRoute);
@@ -56,7 +58,7 @@ app.use('/charg-card', chargeCardRoute)
 app.use('/', indexRoute);
 
 
-const port = process.env.PORT || 8000;
+const port = 3000; // process.env.PORT || 8000;
 http.listen(port, err => {
     if (err) throw err;
     console.log(`serer running on port:  ${port}`)

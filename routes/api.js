@@ -108,8 +108,9 @@ router.post('/search-prouduct-by-name', (req, res) => {
     
     try {
         productName = req.body.name;
+        console.log(2213, req.body)
         categoryType = req.body.categoryId;
-        console.log(categoryType);
+       // console.log(categoryType);
     } catch (error) {
         throw error;
     }
@@ -128,6 +129,7 @@ router.post('/search-prouduct-by-name', (req, res) => {
                 res.json({ success: false, message: 'error in database' })
                 throw err;
             } else {
+                console.log(8555, products)
                 res.json(products)
             }
         })
@@ -177,12 +179,27 @@ router.get('/products-no-index', checkJwt, (req, res) => {
 
     db.productSchema.find(query, function (err, products) {
         if (err) {
-               res.json('error in database')
+            res.json('error in database')
         } else {
             res.json(products)
 
         }
     })
+});
+
+router.post('/products-filter', (req, res) => {
+   try {
+    price = req.params.price;
+    console.log(price)
+   } catch (error) {
+       
+   }
+
+   db.productSchema.find({price: price})
+   .exec(function(err, docs) {
+       console.log(docs)
+       res.json(docs)
+   })
 });
 
 module.exports = router;
