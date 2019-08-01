@@ -28,7 +28,10 @@ const indexRoute = require('./routes/index');
 const shoppingRoute = require('./routes/shopping');
 const chargeCardRoute = require('./routes/cedit-card');
 
-mongoose.connect(process.env.MONGODB_URI ||config.db, err => {
+mongoose.Promise = global.Promise;
+const ConnectionUri = process.env.MONGODB_URI || config.db
+
+mongoose.connect(ConnectionUri, err => {
     if (err) {
         console.log('Error in connecting to Mongo DB !!');
         throw err;
@@ -82,7 +85,7 @@ app.use('/charg-card', chargeCardRoute)
 
 app.use('/', indexRoute);
 
-const port =  process.env.PORT || 8000;
+const port =  process.env.PORT ||  3000 || 8000 ;
 http.listen(port, err => {
     if (err) throw err;
     console.log(`serer running on port:  ${port}`)
