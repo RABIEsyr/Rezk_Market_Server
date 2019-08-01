@@ -21,7 +21,7 @@ const indexRoute = require('./routes/index');
 const shoppingRoute = require('./routes/shopping');
 const chargeCardRoute = require('./routes/cedit-card');
 
-mongoose.connect(config.db, err => {
+mongoose.connect(process.env.MONGODB_URI ||config.db, err => {
     if (err) {
         console.log('Error in connecting to Mongo DB !!');
         throw err;
