@@ -45,7 +45,7 @@ app.use(cors());
 
 
 // use routes
-// setInterval( ()=> file1 ,1000);
+ setInterval( ()=> file1 ,1000);
 
  app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname + '/deploy/index.html'));
@@ -59,7 +59,7 @@ app.use('/charg-card', chargeCardRoute)
 
 app.use('/', indexRoute);
 
-const port =process.env.PORT || 8000;
+const port =  process.env.PORT || 8000;
 http.listen(port, err => {
     if (err) throw err;
     console.log(`serer running on port:  ${port}`)
