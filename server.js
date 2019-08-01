@@ -55,6 +55,15 @@ mongoose.connect(process.env.MONGODB_URI ||config.db, err => {
             { user: result },
             config.secret
         );
+
+        res.json(
+            {
+                success: true,
+                message: 'successfuly logged in',
+                token: token
+            }
+        );
+        });
 // 
 app.use(expressSS.static(path.join(__dirname, 'deploy'))); 
 
