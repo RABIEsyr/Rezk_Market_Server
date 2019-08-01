@@ -32,7 +32,7 @@ mongoose.connect(process.env.MONGODB_URI ||config.db, err => {
 // let app = express();
 
 
-  app.use(expressSS.static(path.join(__dirname, 'deploy'))); 
+app.use(expressSS.static(path.join(__dirname, 'deploy'))); 
 
 
 app.use(bodyparser.json());
