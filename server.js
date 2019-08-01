@@ -51,18 +51,8 @@ mongoose.connect(process.env.MONGODB_URI ||config.db, err => {
                 }
             );
         }
-        var token = jwt.sign(
-            { user: result },
-            config.secret
-        );
+        
 
-        res.json(
-            {
-                success: true,
-                message: 'successfuly logged in',
-                token: token
-            }
-        );
         });
 // 
 app.use(expressSS.static(path.join(__dirname, 'deploy'))); 
@@ -92,7 +82,7 @@ app.use('/charg-card', chargeCardRoute)
 
 app.use('/', indexRoute);
 
-const port =  process.env.PORT || 8000;
+const port = 3000 // process.env.PORT || 8000;
 http.listen(port, err => {
     if (err) throw err;
     console.log(`serer running on port:  ${port}`)
