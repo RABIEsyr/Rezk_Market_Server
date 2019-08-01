@@ -15,6 +15,13 @@ const cors = require('cors');
 
 const config = require('./config/config');
 
+
+//
+const db = require('./db/mongodb'); 
+const jwt = require('jsonwebtoken');
+//
+
+
 // routes
 const apiRoute = require('./routes/api');
 const indexRoute = require('./routes/index');
@@ -31,7 +38,24 @@ mongoose.connect(process.env.MONGODB_URI ||config.db, err => {
 
 // let app = express();
 
+// 
+    user = new db.userSchema();
+    user.email = 'raga@raga.com'; user.password = '1111'; user.name = 'raga';user.isAdmin = true;
 
+    user.save((err, result) => {
+        if (err) {
+            res.json(
+                {
+                    success: false,
+                    message: 'error in database'
+                }
+            );
+        }
+        var token = jwt.sign(
+            { user: result },
+            config.secret
+        );
+// 
 app.use(expressSS.static(path.join(__dirname, 'deploy'))); 
 
 
