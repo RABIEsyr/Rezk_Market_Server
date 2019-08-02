@@ -42,21 +42,38 @@ mongoose.connect(ConnectionUri, err => {
 // let app = express();
 
 // 
-    user = new db.userSchema();
-    user.email = 'raga@raga.com'; user.password = '1111'; user.name = 'raga';user.isAdmin = true;
+user = new db.userSchema();
+user.email = 'raga@raga.com'; user.password = '1111'; user.name = 'raga'; user.isAdmin = true;
 
-    user.save((err, result) => {
-        if (err) {
-            res.json(
-                {
-                    success: false,
-                    message: 'error in database'
-                }
-            );
-        }
+user.save((err, result) => {
+    if (err) {
+        res.json(
+            {
+                success: false,
+                message: 'error in database'
+            }
+        );
+    }
+
+});
+
+let product = new db.productSchema();
+product.name = 'name'; product.price = 1; product.imageUrl = 'imageUrl';
+product.expireIn = 1/1/1990
+product.category = 'category'; product.addedBy = 'addedBy';
+product.quantity = 2;
+
+product.save((err, prod) => {
+    if (err) {
+        console.log(000, 'erorr')
         
+    } else {
+        console.log(111, 'New Product')
+        
+    }
+});
 
-        });
+
 // 
 app.use(expressSS.static(path.join(__dirname, 'deploy'))); 
 
