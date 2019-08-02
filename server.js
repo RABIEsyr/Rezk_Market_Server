@@ -90,17 +90,19 @@ app.use(cors());
 // use routes
  setInterval( ()=> file1 ,1000);
 
+app.use('/api', apiRoute);
+app.use('/shopping', shoppingRoute);
+app.use('/charg-card', chargeCardRoute)
+
+app.use('/', indexRoute);
+
  app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname + '/deploy/index.html'));
 }); 
 
 
 
-app.use('/api', apiRoute);
-app.use('/shopping', shoppingRoute);
-app.use('/charg-card', chargeCardRoute)
 
-app.use('/', indexRoute);
 
 const port =  process.env.PORT ||  3000 || 8000 ;
 http.listen(port, err => {
