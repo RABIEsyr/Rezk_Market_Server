@@ -29,7 +29,7 @@ const shoppingRoute = require('./routes/shopping');
 const chargeCardRoute = require('./routes/cedit-card');
 
 mongoose.Promise = global.Promise;
-const ConnectionUri = 'mongodb+srv://rezkmarket-qbue6.mongodb.net/test?retryWrites=true' || config.db
+const ConnectionUri = "mongodb+srv://rabie:A1b2c3d4e5@rezkmarket-qbue6.mongodb.net/test?retryWrites=true&w=majority" || config.db
 
 mongoose.connect(ConnectionUri, err => {
     if (err) {
