@@ -14,9 +14,9 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 
 const config = require('./config/config');
+const dotenv = require('dotenv');
 
-
-//
+//now secrets "mongodb+srv://rezkmarket-qbue6.mongodb.net/test?retryWrites=true" --username rabie
 const db = require('./db/mongodb'); 
 const jwt = require('jsonwebtoken');
 //
@@ -29,7 +29,7 @@ const shoppingRoute = require('./routes/shopping');
 const chargeCardRoute = require('./routes/cedit-card');
 
 mongoose.Promise = global.Promise;
-const ConnectionUri = process.env.MONGODB_URI || config.db
+const ConnectionUri = 'mongodb+srv://rezkmarket-qbue6.mongodb.net/test?retryWrites=true' || config.db
 
 mongoose.connect(ConnectionUri, err => {
     if (err) {
