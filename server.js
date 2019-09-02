@@ -96,7 +96,7 @@ app.use('/charg-card', chargeCardRoute)
 
 app.use('/', indexRoute);
 
- app.get('/', (req, res) => {
+ app.get('/*', (req, res) => {
     res.sendFile(path.join(__dirname + '/deploy/index.html'));
 }); 
 
