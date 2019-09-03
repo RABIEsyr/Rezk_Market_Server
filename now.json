@@ -1,8 +1,0 @@
-
-{
-    "name": "my-mongodb-api",
-    "version": 2,
-    "env": {
-      "MONGODB_URI": "mongodb+srv://rabie:A1b2c3d4e5@rezkmarket-qbue6.mongodb.net/test?retryWrites=true&w=majority"
-    }
-  }

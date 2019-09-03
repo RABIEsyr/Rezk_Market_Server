@@ -16,7 +16,6 @@ const cors = require('cors');
 const config = require('./config/config');
 const dotenv = require('dotenv');
 
-//now secrets "mongodb+srv://rezkmarket-qbue6.mongodb.net/test?retryWrites=true" --username rabie
 const db = require('./db/mongodb'); 
 const jwt = require('jsonwebtoken');
 //
@@ -29,8 +28,8 @@ const shoppingRoute = require('./routes/shopping');
 const chargeCardRoute = require('./routes/cedit-card');
 
 mongoose.Promise = global.Promise;
-const ConnectionUri = "mongodb+srv://rabie:A1b2c3d4e5@rezkmarket-qbue6.mongodb.net/test?retryWrites=true&w=majority" || config.db
-
+const ConnectionUri = 'mongodb+srv://rabie:A1b2c3d4e5@cluster0-kixy3.gcp.mongodb.net/test?retryWrites=true&w=majority';
+// || config.db
 mongoose.connect(ConnectionUri, err => {
     if (err) {
         console.log('Error in connecting to Mongo DB !!');
@@ -75,7 +74,7 @@ product.save((err, prod) => {
 
 
 // 
-app.use(expressSS.static(path.join(__dirname, 'deploy'))); 
+app.use(expressSS.static(path.join(__dirname, '/deploy'))); 
 
 
 app.use(bodyparser.json());
@@ -97,7 +96,7 @@ app.use('/charg-card', chargeCardRoute)
 app.use('/', indexRoute);
 
  app.get('/*', (req, res) => {
-    res.sendFile(path.join(__dirname + '/deploy/index.html'));
+    res.sendFile(path.join(__dirname));
 }); 
 
 
