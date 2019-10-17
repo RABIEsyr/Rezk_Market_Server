@@ -34,15 +34,6 @@ router.get('/get-cart', checkJwt, (req, res) => {
    console.log(5566, userId);
    let products = [];
 
-   // db.cartSchema.findOne({ owner: new ObjectId(userId) }, (err, cart) => {
-   //    if (err) throw err;
-   //    if (cart) {
-   //       res.json({
-   //          success: true,
-   //          products: cart.products
-   //       });
-   //    }
-   // });
 
    db.cartSchema.findOne({ owner: new ObjectId(userId) })
       .populate('products')
@@ -76,8 +67,7 @@ router.get('/get-cart', checkJwt, (req, res) => {
 router.post('/', checkJwt, (req, res, nexe) => {
    let userId = req.decoded.user._id
    let prodctId = req.body.productId;
-   console.log(00, userId);
-   console.log(11, prodctId);
+   
 
    db.cartSchema.findOne({ owner: new ObjectId(userId) }, (err, doc) => {
       if (err) console.log(err);

@@ -1,15 +1,18 @@
 const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
-
+const fs = require('fs');
 const db = require('../db/mongodb');
 const config = require('../config/config');
+
+
+
 
 router.post('/sign-up', (req, res) => {
     email = req.body.email;
     password = req.body.password
     name = req.body.name;
-
+  
     if (email && password && name) {
 
         db.userSchema.findOne({ email: email }, (err, doc) => {

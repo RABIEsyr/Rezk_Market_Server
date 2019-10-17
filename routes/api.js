@@ -202,4 +202,12 @@ router.post('/products-filter', (req, res) => {
    })
 });
 
+router.get('/user-msg', checkJwt, function(req, res , next) {
+    let id = req.decoded.user._id;
+
+    let query = {to: id}
+    db.chatSchema.find(query, function(err, mesgs) {
+        res.send(mesgs)
+    })
+})
 module.exports = router;

@@ -7,7 +7,9 @@ const userSchema = new schema({
     email: String,
     password: String,
     cart: {type: schema.Types.ObjectId, ref: 'cartSchema'},
-    isAdmin: { type: Boolean, default: false }
+    isAdmin: { type: Boolean, default: false },
+    image: { data: Buffer, contentType: String },
+    online: Boolean
 });
 
 
@@ -56,6 +58,12 @@ const cartSchema = new schema({
     ]
 });
 
+const chatSchema = new schema({
+    from: { type: schema.Types.ObjectId, ref: 'userSchema'},
+    to: [{type: schema.Types.ObjectId, ref: 'userSchema'}],
+    content: String,
+    date: {type: Date, default: Date.now},
+})
 
 const credit = new schema({});
 
@@ -63,4 +71,5 @@ module.exports.userSchema = mongoose.model('userSchema', userSchema)
 module.exports.productSchema = mongoose.model('productSchema', productSchema);
 module.exports.categorySchema = mongoose.model('categorySchema', categorySchema);
 module.exports.cartSchema = mongoose.model('cartSchema', cartSchema);
-module.exports.credits = mongoose.model('credits', cartSchema);;
+module.exports.credits = mongoose.model('credits', cartSchema);
+module.exports.chatSchema = mongoose.model('chatSchema', chatSchema);
