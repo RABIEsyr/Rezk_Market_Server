@@ -64,8 +64,8 @@ const allMessageRoute = require('./routes/all-msg');
 
  mongoose.Promise = global.Promise;
 
- const ConnectionUri = config.db 
- //const ConnectionUri = 'mongodb+srv://rabie:A1b2c3d4e5@cluster0-kixy3.gcp.mongodb.net/test?retryWrites=true&w=majority'
+ //const ConnectionUri = config.db 
+ const ConnectionUri = 'mongodb+srv://rabie:A1b2c3d4e5@cluster0-kixy3.gcp.mongodb.net/test?retryWrites=true&w=majority'
 mongoose.connect(ConnectionUri, err => {
     if (err) {
         console.log('Error in connecting to Mongo DB !!');
