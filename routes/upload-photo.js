@@ -33,7 +33,7 @@ let storage = multer.diskStorage({
       cb(null, DIR);
     },
     filename: (req, file, cb) => {
-      cb(null, req.decoded.user._id + '.' + path.extname(file.originalname));
+      cb(null, req.decoded.user._id +  path.extname(file.originalname));
     }
 });
 
@@ -51,48 +51,38 @@ router.post('', checkJwt, upload.single('photo'), function (req, res) {
   
     } else {
       console.log('file received');
-     
-     
-      
-     
+
       let dataUrl;
 
       fs.readFile(
-        './uploads/' + req.decoded.user._id.toLowerCase() + '..png', 'base64',
+        './uploads/' + file, 'base64',
         (err, base64Image) => {
            dataUrl = `data:image/png;base64, ${base64Image}`
          
         });
-        return res.json(dataUrl)
+         res.json(dataUrl)
     }
 });
 
 testFolder = 'uploads/'
 
-router.get('/get', checkJwt, (req, res) => {
-  console.log('8888899')
+router.get('/get-pic', checkJwt, (req, res) => {
   fs.readdirSync(testFolder).forEach(file => {
   
    
-    if ( ( (req.decoded.user._id.toLowerCase() + '..png') === file.toLowerCase() )  ||
-       ( (req.decoded.user._id + '..jpeg') === file )    
+    if ( ( req.decoded.user._id + '.png' === file )  ||
+       ( (req.decoded.user._id + '.jpeg') === file )    
       ) {
    
-     // res.send(file);
-     
+        fs.readFile(
+          './uploads/' + req.decoded.user._id + '.png', 'base64',
+          (err, base64Image) => {
+            const dataUrl = `data:image/png;base64, ${base64Image}`
+             res.json(dataUrl);
+          })
     }
-
    
   });
-
-
-
-  fs.readFile(
-    './uploads/' + req.decoded.user._id.toLowerCase() + '..png', 'base64',
-    (err, base64Image) => {
-      const dataUrl = `data:image/png;base64, ${base64Image}`
-       res.json(dataUrl);
-    });
   
 });
 

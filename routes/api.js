@@ -9,6 +9,15 @@ const db = require('../db/mongodb');
 
 var moment = require('moment');
 
+
+var fs = require('fs'),
+    request = require('request');
+    var multer = require('multer');
+    const path = require('path');
+    const DIR = './product-image';
+
+ 
+
 router.post('/new-product', checkJwt, checkIsAdmin, (req, res) => {
     let name = req.body.product.name;
     let addedBy = req.decoded.user._id;
@@ -16,6 +25,14 @@ router.post('/new-product', checkJwt, checkIsAdmin, (req, res) => {
     let price = req.body.product.price;
     let expireIn = req.body.product.expireIn; let imageUrl = req.body.product.imageUrl;
 
+    let imgFile;
+    try {
+        imgFile = req.body.product.myFile
+    } catch(e) {}
+
+    if (imgFile) {
+        console.log(imgFile)
+    }
     if (name && price && addedBy) {
         let product = new db.productSchema();
         product.name = name; product.price = price; product.imageUrl = imageUrl;
@@ -41,6 +58,49 @@ router.post('/new-product', checkJwt, checkIsAdmin, (req, res) => {
     }
 
 });
+
+
+
+  
+
+let storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, DIR);
+  },
+  filename: (req, file, cb) => {
+    cb(null, file.originalname + '-' + Date.now() +     path.extname(file.originalname));
+  }
+});
+
+let upload = multer({storage: storage});
+
+router.post('/new-product-image',checkJwt, upload.single('photo'), (req, res) => {
+    console.log('77')
+    if (!req.file) {
+        return res.send({
+          success: false,
+          message: 'error not added'
+        });
+    
+      } else {
+       const product = new db.productSchema();
+       product.name = req.body.name;
+       product.price = req.body.price;
+       product.quantity = req.body.quantity;
+       product.quantity = req.body.quantity;
+       product.expireIn = req.body.expireIn;
+       product.imageUrl = `product-image/${req.file.filename}`;
+       product.save((err, product) => {
+        return res.json({
+            success: true,
+            message: 'successfully added',
+            product: product
+          });
+       });
+       
+      
+      }
+})
 
 router.post('/edit-product', checkJwt, checkIsAdmin, (req, res) => {
     let id  = req.body.product.id;
@@ -202,12 +262,19 @@ router.post('/products-filter', (req, res) => {
    })
 });
 
-router.get('/user-msg', checkJwt, function(req, res , next) {
-    let id = req.decoded.user._id;
+router.post('/delete-product', (req, res) => {
 
-    let query = {to: id}
-    db.chatSchema.find(query, function(err, mesgs) {
-        res.send(mesgs)
+    db.productSchema.findById(req.body.id, function(err, doc) {
+        if (err)
+         throw err;;
+        
+         doc.remove(() => {
+             res.json({
+                 success: true
+             })
+         })
     })
+  console.log('delete', req.body.id);
 })
+
 module.exports = router;

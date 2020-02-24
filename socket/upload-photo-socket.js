@@ -6,4 +6,4 @@ socketFunction.socketStartUp = function (server) {
        io.emit('upload-photo', 'sssss');
     })
 }
-module.exports = socketFunction;
+ module.exports = socketFunction;

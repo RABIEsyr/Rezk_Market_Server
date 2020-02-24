@@ -6,14 +6,11 @@ const ObjectId = require('mongoose').Types.ObjectId;
 
 exports = module.exports = function(io){
  
-  let sender;
-  let clients = [];
+ 
+  var array_of_connection = [] ;
   let senderTokent;
   let sessionID = {};
-  var sockets = {};
   let id;
-  let adminsArr = [];
-  var array_of_connection = [] ;
 
   io.use(function(socket, next){
     if (socket.handshake.query && socket.handshake.query.token){
@@ -30,35 +27,34 @@ exports = module.exports = function(io){
     }    
   })
   .on('connection', function(socket) {  
-     // console.log('2222989' ,sessionID,'09900')
      array_of_connection.push(socket);
-    
-     
+      
       socket._id = senderTokent.user._id;
+      const sessionMap = {};
+
       socket.on('send-message', function(message) {
-               
+             sessionMap[message._id]  = socket.id 
+             
         db.userSchema.find({isAdmin: true}, function(err, admins) {          
           const newMessage = new db.chatSchema();
-
-          newMessage.from = senderTokent.user._id;
+           
+          newMessage.from = message._id;
 
           for (let admin of admins) {
-            newMessage.to.push(new ObjectId(admin._id))
-          }
-          
-          newMessage.content = message;
+              newMessage.to.push(admin._id)
+          }         
+
+          newMessage.content = message.message;
 
           newMessage.save();
 
           for (let i = 0; i < array_of_connection.length; i++) {
-            if (array_of_connection[i].decoded.user.isAdmin) {
-               array_of_connection[i].emit('receive-message', message)
-            }
+              if (array_of_connection[i].decoded.user.isAdmin) {
+                  array_of_connection[i].emit('receive-message', message)               
+              }                     
           }
 
-          
-        })
-        
+        });
       
       });
   });

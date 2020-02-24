@@ -5,6 +5,10 @@ const ObjectId = require('mongoose').Types.ObjectId;
 const db = require('./../db/mongodb');
 const checkJwt = require('./../middleware/checkJwt');
 
+const mongoose = require('mongoose');
+var deepPopulate = require('mongoose-deep-populate')(mongoose);
+
+
 function uniq(array) {
    let map = new Map();
    let count = 0;
@@ -31,7 +35,6 @@ function uniq(array) {
 
 router.get('/get-cart', checkJwt, (req, res) => {
    let userId = req.decoded.user._id;
-   console.log(5566, userId);
    let products = [];
 
 
@@ -80,7 +83,6 @@ router.post('/', checkJwt, (req, res, nexe) => {
          cart.save();
          db.userSchema.findById(new ObjectId(userId), (err, user) => {
             if (err) {
-               console.log(123321, err);
                res.send('error , call 911');
             } else {
                db.cartSchema.findOne({ owner: new ObjectId(user._id) }, (err, cart) => {
@@ -102,13 +104,57 @@ router.post('/', checkJwt, (req, res, nexe) => {
 
 router.post('/remove-one-product', checkJwt,(req, res) => {
    let userId = req.decoded.user._id
-   db.cartSchema.findOne({ products: req.body.id, owner: new ObjectId(userId) }, (err, product) => {
+   console.log('shooping:  id- ', req.body.id)
+   db.cartSchema.findOne({owner: new ObjectId(userId) }, (err, product) => {
       if (err) throw err;
       if (product) {
-         product.remove();
-         console.log(622333)
+         for (let i = 0; i < product.products.length; i++) {
+            if (product['products'][i] == req.body.id) {
+               product['products'].splice(i, 1);
+               console.log('p:', product['products'][i])
+               break;
+            }
+            
+         }
+         product.save();
+         console.log('product: ', product)
       }
    })
+  
+});
+
+router.post('/submit-buy', checkJwt, (req, res) => {
+   let userId = req.decoded.user._id;
+   db.cartSchema.findOneAndRemove({owner: new ObjectId(userId)}, function(err, doc) {
+      if (err) throw err;
+      console.log('submit: ', doc)
+      const newHistory = new db.historySchema();
+      newHistory.products = doc.products;
+      newHistory.owner = doc.owner;
+      newHistory.totaPrice = req.body.totaPrice;
+      
+      newHistory.save((err, doc) =>{
+         res.json({
+            success: true
+         });
+      });
+   });
+});
+
+router.get('/history', checkJwt, (req, res) => {
+   let _id = req.decoded.user._id;
+
+   db.historySchema.find({owner: _id})
+     .populate('products', 'name price imageUrl')
+     .exec((err, result) =>{
+         if (result){
+            console.log('result: ', result)
+            res.json({
+               success: true,
+               order: result
+            })
+         }       
+      })
 })
 
 module.exports = router;
