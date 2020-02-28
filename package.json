@@ -15,6 +15,7 @@
   "dependencies": {
     "@types/socket.io": "^2.1.2",
     "async": "^2.6.2",
+    "aws-sdk": "^2.627.0",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.18.3",
     "connect-multiparty": "^2.2.0",

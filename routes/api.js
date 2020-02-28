@@ -39,7 +39,7 @@ router.post('/new-product', checkJwt, checkIsAdmin, (req, res) => {
         product.expireIn = expireIn
         product.category = category; product.addedBy = addedBy;
         product.quantity = quantity;
-
+            console.log('new-prod', imageUrl)
         product.save((err, prod) => {
             if (err) {
                 console.log(000, 'erorr')
